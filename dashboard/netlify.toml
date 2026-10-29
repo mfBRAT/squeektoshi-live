@@ -1,0 +1,31 @@
+# Squeektoshi Live dashboard (squeek.mfbrat.com). Static site, no build step, no functions.
+# base is relative to the git root: without it the CLI would publish the game's public/ and functions.
+[build]
+  base = "dashboard"
+  publish = "public"
+  command = ""
+
+# The game moved to its own site; keep old links working.
+[[redirects]]
+  from = "/play"
+  to = "https://squeekorsleep.mfbrat.com/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/play/*"
+  to = "https://squeekorsleep.mfbrat.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.squeekchain.com https://ethereum-sepolia-rpc.publicnode.com https://rpc.sepolia.org https://sepolia.drpc.org; frame-ancestors 'none'"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=300"

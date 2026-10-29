@@ -4,71 +4,114 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0b0d" />
-  <title>Squeektoshi Live · Is the hamster running?</title>
-  <meta name="description" content="Community-built live dashboard for Squeekchain: is Squeektoshi running right now? Wheel RPM, total work, Squeek block height, difficulty and SQK minted on Sepolia." />
-  <meta property="og:title" content="Squeektoshi Live" />
-  <meta property="og:description" content="Is Squeektoshi running right now? Live Squeekchain wheel + chain stats." />
+  <title>Squeek or Sleep · Call the hamster's next round</title>
+  <meta name="description" content="A free prediction game on Squeekchain: guess whether Squeektoshi naps, jogs or gets the zoomies in each 10-minute round. Results are read from Ethereum (Sepolia)." />
+  <meta property="og:title" content="Squeek or Sleep" />
+  <meta property="og:description" content="Nap, jog or zoomies? Call the hamster's next round. Results settle on-chain." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;600;700&family=IBM+Plex+Mono:wght@400;500&family=Quicksand:wght@600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;600;700&family=IBM+Plex+Mono:wght@400;500&family=Quicksand:wght@600;700&family=Share+Tech+Mono&display=swap" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="play.css" />
 </head>
 <body>
   <header class="top">
-    <div class="brand">
-      <canvas id="mark" width="44" height="44" aria-hidden="true"></canvas>
+    <a class="brand brand--link" href="https://squeek.mfbrat.com/">
+      <img src="favicon.svg" width="36" height="36" alt="" />
       <span class="brand__name">Squeektoshi <b>Live</b></span>
-    </div>
-    <div class="top__meta"><span class="pill pill--test">Sepolia testnet</span><span id="fresh" class="pill">connecting…</span></div>
+    </a>
+    <div class="top__meta"><span class="pill pill--test">Sepolia testnet</span><span id="live" class="pill">connecting…</span></div>
   </header>
 
   <main>
-    <section id="banner" class="banner" data-state="unknown" aria-live="polite">
-      <div class="banner__art"><canvas id="hamster" width="264" height="216" aria-label="Dot-matrix hamster"></canvas></div>
-      <div class="banner__text">
-        <p class="eyebrow">Is Squeektoshi running right now?</p>
-        <h1 id="answer">Checking the wheel…</h1>
-        <p id="subline" class="subline">Reading the WHEELY9000.</p>
-        <div class="banner__actions">
-          <a class="btn btn--primary" href="https://x.com/squeekchain" target="_blank" rel="noopener">▶ Watch the livestream</a>
-          <a class="btn btn--blue" href="play/">🎯 Play Squeek or Sleep</a>
-          <a class="btn btn--quiet" href="https://squeekchain.com/genesis/639pun7q" target="_blank" rel="noopener">Join Genesis</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid" aria-label="Live stats">
-      <article class="card card--gold"><p class="card__label">Wheel speed</p><p class="card__value"><span id="rpm">—</span><small>RPM</small></p><p class="card__detail" id="speed">—</p></article>
-      <article class="card"><p class="card__label">Total work</p><p class="card__value"><span id="work">—</span><small>passes</small></p><p class="card__detail">Accepted wheel-magnet passages</p></article>
-      <article class="card card--blue"><p class="card__label">Squeek block height</p><p class="card__value"><span id="height">—</span></p><div class="bar"><span id="progress"></span></div><p class="card__detail" id="progressText">—</p></article>
-      <article class="card"><p class="card__label">Difficulty</p><p class="card__value"><span id="difficulty">—</span><small>work / 1k blocks</small></p><p class="card__detail">Adapts to the hamster's active rounds</p></article>
-      <article class="card card--gold"><p class="card__label">SQK minted</p><p class="card__value"><span id="minted">—</span><small>SQK</small></p><p class="card__detail" id="cap">—</p></article>
-      <article class="card"><p class="card__label">Settlement</p><p class="card__value card__value--sm"><span id="round">—</span></p><p class="card__detail" id="settled">—</p></article>
-    </section>
-
-    <section class="tiles" aria-label="Recent wheel activity">
-      <div class="tiles__head"><p class="card__label">This session's pulse</p><p class="card__detail">One tile per refresh · lit = wheel spinning</p></div>
-      <div id="pulse" class="pulse"></div>
-    </section>
-
-    <section class="ping">
+    <section class="hero">
       <div>
-        <p class="eyebrow eyebrow--blue">Testnet only · optional</p>
-        <h2>Ping SQK</h2>
-        <p class="subline">Sends one harmless Sepolia transaction from <em>your</em> wallet: <code>approve(yourself, 0)</code> on the live SQK token. No funds move, no allowance is granted. You'll need a little Sepolia test ETH for gas. Nothing is sent until you confirm in your wallet.</p>
+        <p class="eyebrow">Squeek or Sleep</p>
+        <h1 class="hero__title">Call the <span>wheel</span></h1>
+        <p class="subline">Every 10 minutes is a round. Guess what Squeektoshi does in the next ones: <b>nap</b>, <b>jog</b> or <b>zoomies</b>. Rarer calls pay more, and every result is read from Ethereum, not from us.</p>
       </div>
-      <div class="ping__actions">
-        <button id="pingBtn" class="btn btn--blue" type="button">Connect wallet & ping</button>
-        <p id="pingStatus" class="card__detail" role="status"></p>
+      <div class="account" id="account" aria-live="polite">
+        <p class="card__label">Player</p>
+        <div id="signedOut">
+          <button id="signIn" class="btn btn--primary" type="button">Connect wallet to play</button>
+          <p class="card__detail">Free: you sign a message, no transaction, no gas.</p>
+        </div>
+        <div id="signedIn" hidden>
+          <p class="account__addr"><span id="meName"></span> <small id="meAddr"></small></p>
+          <p class="card__detail" id="meStats"></p>
+          <form id="handleForm" class="handle">
+            <label for="handleInput" class="card__detail">Display name (optional, unverified)</label>
+            <div class="handle__row"><input id="handleInput" maxlength="16" placeholder="your X handle" autocomplete="off" spellcheck="false" /><button class="btn btn--small" type="submit">Save</button></div>
+          </form>
+          <button id="signOut" class="linkish" type="button">Sign out</button>
+        </div>
+        <p id="msg" class="msg" role="status"></p>
       </div>
+    </section>
+
+    <section class="now card">
+      <div>
+        <p class="card__label">Round in progress</p>
+        <p class="card__value card__value--sm"><span id="curRound">—</span></p>
+        <p class="card__detail">Ends in <b id="curLeft">—</b> · results settle on Sepolia 5–20 min later</p>
+      </div>
+      <div>
+        <p class="card__label">Right now</p>
+        <p class="now__state" id="nowState">—</p>
+        <a class="card__detail" href="https://x.com/squeekchain" target="_blank" rel="noopener">Watch the livestream ↗</a>
+      </div>
+      <div>
+        <p class="card__label">Your calls left</p>
+        <p class="card__value card__value--sm"><span id="callsLeft">—</span></p>
+        <p class="card__detail" id="callsNote">12 per day (UTC)</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="nextHead">
+      <div class="section-head"><h2 id="nextHead">Next rounds</h2><p class="card__detail">Picks lock the moment a round starts.</p></div>
+      <div id="rounds" class="rounds"></div>
+    </section>
+
+    <section class="two">
+      <div class="panel">
+        <div class="section-head"><h2>Your calls</h2></div>
+        <ol id="myPicks" class="list"></ol>
+        <p id="myEmpty" class="card__detail">Sign in and make a call to see it here.</p>
+      </div>
+      <div class="panel">
+        <div class="section-head"><h2>Settled rounds</h2><p class="card__detail" id="settledNote"></p></div>
+        <ol id="recent" class="list"></ol>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><h2>Leaderboard</h2><p class="card__detail" id="seasonNote"></p></div>
+      <table class="board">
+        <thead><tr><th>#</th><th>Player</th><th class="num">Points</th><th class="num">Hits / calls</th></tr></thead>
+        <tbody id="board"></tbody>
+      </table>
+      <p id="boardEmpty" class="card__detail">No scores yet this week. The first settled call puts you on the board.</p>
+    </section>
+
+    <section class="panel rules">
+      <div class="section-head"><h2>How it works</h2></div>
+      <ul>
+        <li><b>💤 Nap</b> = 0 wheel passes in the round · <b>🐾 Jog</b> = 1–499 · <b>🔥 Zoomies</b> = 500+.</li>
+        <li>You can call any of the next 6 rounds (one hour), and change a call until its round starts. You get <b>12 calls per UTC day</b>.</li>
+        <li>Points are about 1 ÷ how often that outcome happened over the last week, so guessing blindly averages ~1 point a round. Reading the hamster beats that. This week: <span id="pointsLine">—</span>.</li>
+        <li>Results come from SqueekCore on Sepolia: a round's work from its <code>RoundRecorded</code> event, or 0 if a settlement covered it without one. Each result links its transaction.</li>
+        <li id="voidRule">If the wheel feed goes offline during a round, that round is <b>void</b> and scores nothing for anyone.</li>
+        <li>Weekly seasons start Monday 00:00 UTC. Ties go to whoever used fewer calls. Top players may be shared with Squeekchain; their Genesis rules decide any whitelist spots.</li>
+      </ul>
+      <p class="welfare">🐹 Squeektoshi's wheel time is never forced or encouraged. This game only predicts what he chooses to do, and naps score too.</p>
     </section>
   </main>
 
   <footer class="foot">
-    <p>Community-built, <b>not affiliated with Squeekchain</b>. Data from the public <a href="https://api.squeekchain.com/v1/status" target="_blank" rel="noopener">Squeekchain API</a>, falling back to a public Sepolia RPC. Testnet SQK has no monetary value. Squeekchain, Squeektoshi and WHEELY9000 belong to their owners. <a href="https://docs.squeekchain.com" target="_blank" rel="noopener">Docs</a></p>
-    <p class="foot__mono">Updated <span id="updated">—</span> · refreshes every 15s · <span id="source">—</span></p>
+    <p>Community-built, <b>not affiliated with Squeekchain</b>. Free to play, no money involved; testnet SQK has no value. Squeekchain, Squeektoshi and WHEELY9000 belong to their owners. <a href="https://squeek.mfbrat.com/">Live dashboard</a> · <a href="https://docs.squeekchain.com" target="_blank" rel="noopener">Squeekchain docs</a></p>
+    <p class="mf"><img src="mf-skull.png" width="32" height="32" alt="" /><span class="mf__mf">MF</span><span class="mf__labs">LABS</span><span class="mf__slash">/</span><span class="mf__sub">SQUEEK OR SLEEP</span></p>
   </footer>
-  <script src="app.js"></script>
+  <script src="play.js"></script>
 </body>
 </html>
