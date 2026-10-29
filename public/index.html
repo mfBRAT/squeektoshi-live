@@ -50,6 +50,20 @@
       </div>
     </section>
 
+    <section class="stream panel" id="stream" aria-labelledby="streamHead">
+      <div class="section-head">
+        <h2 id="streamHead">Wheel cam</h2>
+        <p class="card__detail"><span id="streamState" class="tag">checking…</span> Squeekchain's official livestream</p>
+      </div>
+      <div class="stream__frame" id="streamFrame" hidden></div>
+      <p class="stream__off" id="streamOff" hidden>Squeektoshi is off air. He's usually live from about 21:00 UTC, busiest around 22:00.</p>
+      <div class="notify">
+        <button id="notifyBtn" class="btn btn--small notify__btn" type="button" aria-pressed="false" data-watch="#nowState" data-attr="data-s" data-rpm="#nowState">🔔 Notify me when he runs</button>
+        <p id="notifyNote" class="card__detail" hidden></p>
+      </div>
+      <p class="card__detail stream__links"><a id="streamWatch" href="https://sepolia.squeekchain.com/#stream-game" target="_blank" rel="noopener">Open the stream ↗</a> · The video runs a little behind real time, and picks lock when a round starts.</p>
+    </section>
+
     <section class="now card">
       <div>
         <p class="card__label">Round in progress</p>
@@ -113,5 +127,6 @@
     <p class="mf"><img src="mf-skull.png" width="32" height="32" alt="" /><span class="mf__mf">MF</span><span class="mf__labs">LABS</span><span class="mf__slash">/</span><span class="mf__sub">SQUEEK OR SLEEP</span></p>
   </footer>
   <script src="play.js"></script>
+  <script src="notify.js"></script>
 </body>
 </html>

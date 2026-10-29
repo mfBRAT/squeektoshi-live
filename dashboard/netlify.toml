@@ -23,7 +23,7 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.squeekchain.com https://ethereum-sepolia-rpc.publicnode.com https://rpc.sepolia.org https://sepolia.drpc.org; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.squeekchain.com https://ethereum-sepolia-rpc.publicnode.com https://rpc.sepolia.org https://sepolia.drpc.org https://squeekorsleep.mfbrat.com; frame-src https://studio.x.com https://www.youtube-nocookie.com https://player.twitch.tv; frame-ancestors 'none'"
 
 [[headers]]
   for = "/*.js"

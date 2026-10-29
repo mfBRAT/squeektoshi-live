@@ -16,6 +16,15 @@ Source for two separate Netlify sites. Neither is part of mfbrat.com.
 - Points are about 1 ÷ how often each outcome happened, recalculated each Monday from the last 7 days.
 - Data lives in Netlify Blobs on the game site: store `game` for production (squeekorsleep.mfbrat.com, squeekorsleep.netlify.app) and `game-preview` for every preview deploy. Layout notes are at the top of `lib/resolver.js`.
 
+## Wheel cam and run alerts
+- Both sites show Squeekchain's official livestream in the X, YouTube or Twitch player. The game's `/api/stream` decides which broadcast is live; the dashboard reads the same endpoint.
+- It uses Squeekchain's descriptor (`media.squeekchain.com/live/current.json`) when present. On nights it's missing, set the broadcast by hand; it expires after 12 hours:
+  ```bash
+  npm run stream -- https://x.com/i/broadcasts/<id>
+  npm run stream -- --clear
+  ```
+- `notify.js` (same file on both sites) shows a browser notification when the wheel goes from napping to running, at most once per 15 minutes, while the page is open.
+
 ## Known limits
 - Squeekchain's API returns 403 to Netlify's servers, so the "void a round if the feed was offline" check can't sample from here. The page says offline checks are paused, and every settled round counts.
 - Wallet sign-ins are free, so one person could run many wallets. The daily call limit and weekly totals reduce the effect but don't stop it.

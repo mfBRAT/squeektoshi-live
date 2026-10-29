@@ -38,6 +38,20 @@
       </div>
     </section>
 
+    <section class="cam" id="cam" aria-labelledby="camHead">
+      <div class="tiles__head">
+        <p class="card__label" id="camHead">Wheel cam · Squeekchain's official livestream</p>
+        <p class="card__detail"><span id="camState" class="cam__tag">checking…</span></p>
+      </div>
+      <div class="cam__frame" id="camFrame" hidden></div>
+      <p class="cam__off" id="camOff" hidden>Squeektoshi is off air. He's usually live from about 21:00 UTC, busiest around 22:00.</p>
+      <div class="notify">
+        <button id="notifyBtn" class="btn btn--quiet notify__btn" type="button" aria-pressed="false" data-watch="#banner" data-attr="data-state" data-rpm="#rpm">🔔 Notify me when he runs</button>
+        <p id="notifyNote" class="card__detail" hidden></p>
+      </div>
+      <p class="card__detail"><a id="camWatch" href="https://sepolia.squeekchain.com/#stream-game" target="_blank" rel="noopener">Open the stream ↗</a></p>
+    </section>
+
     <section class="grid" aria-label="Live stats">
       <article class="card card--gold"><p class="card__label">Wheel speed</p><p class="card__value"><span id="rpm">—</span><small>RPM</small></p><p class="card__detail" id="speed">—</p></article>
       <article class="card"><p class="card__label">Total work</p><p class="card__value"><span id="work">—</span><small>passes</small></p><p class="card__detail">Accepted wheel-magnet passages</p></article>
@@ -70,5 +84,7 @@
     <p class="foot__mono">Updated <span id="updated">—</span> · refreshes every 15s · <span id="source">—</span></p>
   </footer>
   <script src="app.js"></script>
+  <script src="cam.js"></script>
+  <script src="notify.js"></script>
 </body>
 </html>

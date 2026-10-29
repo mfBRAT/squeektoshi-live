@@ -5,6 +5,7 @@
   "description": "Squeek or Sleep prediction game (squeekorsleep.mfbrat.com) + Squeektoshi Live dashboard (squeek.mfbrat.com)",
   "scripts": {
     "test": "node --test test/",
+    "stream": "node scripts/set-stream.mjs",
     "preview:game": "netlify deploy --no-build --site ed7a59a5-9b8a-40ac-89a9-73f1f7c3a4d0",
     "deploy:game": "npm test && netlify deploy --no-build --prod --site ed7a59a5-9b8a-40ac-89a9-73f1f7c3a4d0",
     "preview:dashboard": "cd dashboard && netlify deploy --no-build --site 3e763fc0-a63f-4f12-a5d1-9076e46d6be2 --dir \"$PWD/public\" --functions \"$PWD/no-functions\"",

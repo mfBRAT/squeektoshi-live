@@ -182,12 +182,38 @@
     } catch { st.textContent = "Can't tell"; pill.textContent = "offline"; pill.dataset.ok = "false"; }
   }
 
+  /* Wheel cam: Squeekchain's own livestream in the official X / YouTube / Twitch player.
+     The iframe is only replaced when the broadcast changes, so polling never restarts the video. */
+  const EMBED_OK = /^https:\/\/(studio\.x\.com\/embed\/broadcast\/|www\.youtube-nocookie\.com\/embed\/|player\.twitch\.tv\/\?)/;
+  const WATCH_OK = /^https:\/\/(x\.com\/i\/broadcasts\/|www\.youtube\.com\/watch\?|www\.twitch\.tv\/)/;
+  const STREAM_PAGE = "https://sepolia.squeekchain.com/#stream-game";
+  let streamSrc = null;
+  async function stream() {
+    let s = null;
+    try { s = await api("/api/stream"); } catch { /* treat as off air */ }
+    const live = !!(s && s.live && EMBED_OK.test(s.embed || ""));
+    const frame = $("streamFrame"), tag = $("streamState");
+    frame.hidden = !live; $("streamOff").hidden = live;
+    tag.textContent = live ? "● live on " + s.label : "off air";
+    tag.className = "tag " + (live ? "tag--live" : "tag--wait");
+    $("streamWatch").href = live && WATCH_OK.test(s.watch || "") ? s.watch : STREAM_PAGE;
+    $("streamWatch").textContent = live ? "Open on " + s.label + " ↗" : "Open the stream ↗";
+    if (!live) { if (streamSrc) { frame.replaceChildren(); streamSrc = null; } return; }
+    if (s.embed === streamSrc) return;
+    streamSrc = s.embed;
+    frame.replaceChildren(el("iframe", {
+      src: s.embed, title: "Squeekchain livestream of Squeektoshi's wheel",
+      allow: "autoplay; fullscreen; picture-in-picture", allowfullscreen: true, referrerpolicy: "strict-origin-when-cross-origin",
+    }));
+  }
+
   $("signIn").addEventListener("click", signIn);
   $("signOut").addEventListener("click", signOut);
   $("handleForm").addEventListener("submit", saveHandle);
-  load(); live();
+  load(); live(); stream();
   setInterval(tick, 1000);
   setInterval(load, 60000);
   setInterval(live, 20000);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) { load(); live(); } });
+  setInterval(stream, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) { load(); live(); stream(); } });
 })();
