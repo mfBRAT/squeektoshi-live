@@ -1,0 +1,15 @@
+Name: Squeek or Sleep
+URL: https://squeekorsleep.mfbrat.com
+One-liner: Nap, jog or zoomies? Call Squeektoshi's next round. Every result settles on Squeekchain.
+
+How does this project use Squeekchain?
+
+Squeek or Sleep is a free prediction game played on Squeekchain's own rounds. Each 10-minute SqueekCore round has one outcome: nap (0 wheel passes), jog (1-499) or zoomies (500+). Players sign in with Sign-In with Ethereum (a signed message, no gas) and can call any of the next 6 rounds, 12 calls per UTC day. A call locks when its round starts.
+
+Results come from Sepolia, never from us. Every 5 minutes a resolver reads SqueekCore's RoundRecorded and BatchSettled events (12 confirmations). A round's work is taken from its RoundRecorded event. A round that a BatchSettled covered without a RoundRecorded scored 0, so it was a nap. Every settled result on the page links its transaction.
+
+Scoring follows the hamster. A call earns about 1 / how often that outcome happened over the last 7 days, recalculated each Monday. Right now a nap pays 1, zoomies 11 and a jog 15, so a blind guess averages about 1 point and reading his nocturnal habits beats it. There are weekly seasons starting Monday 00:00 UTC, plus an all-time board. The "Right now" panel shows live WHEELY9000 status from api.squeekchain.com/v1/status, and the page links Squeekchain's official livestream (sepolia.squeekchain.com).
+
+Hamster first: Squeektoshi's wheel time is never forced or encouraged. The game only predicts what he chooses to do. Naps are the most common outcome and score points too.
+
+Community-built and not affiliated with Squeekchain. No money is involved, and testnet SQK has no value. Companion dashboard: https://squeek.mfbrat.com
