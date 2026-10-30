@@ -213,7 +213,7 @@
   load(); live(); stream();
   setInterval(tick, 1000);
   setInterval(load, 60000);
-  setInterval(live, 20000);
+  setInterval(live, 10000);
   setInterval(stream, 60000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) { load(); live(); stream(); } });
 })();
